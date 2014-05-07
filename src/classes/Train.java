@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -16,7 +17,7 @@ import javax.swing.event.DocumentListener;
 public final class Train extends javax.swing.JPanel {
 
     JFileChooser fileChooser;
-
+    
     /**
      * Creates new form Train
      */
@@ -190,7 +191,7 @@ public final class Train extends javax.swing.JPanel {
 
     private void buttonSeqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSeqActionPerformed
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-
+            
             textAlfabeto.setText(fileChooser.getSelectedFile().getAbsolutePath());
 
         }
