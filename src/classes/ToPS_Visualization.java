@@ -112,7 +112,7 @@ public class ToPS_Visualization extends javax.swing.JFrame {
 
     private void menuNovoModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNovoModeloActionPerformed
        
-        Modelo modelo = new Modelo();
+        Model modelo = new Model();
 
     }//GEN-LAST:event_menuNovoModeloActionPerformed
 
