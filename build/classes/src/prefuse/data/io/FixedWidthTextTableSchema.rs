@@ -1,0 +1,1 @@
+prefuse.data.io.FixedWidthTextTableSchema

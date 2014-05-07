@@ -1,0 +1,5 @@
+prefuse.action.EncoderAction$SetVisualizationVisitor
+prefuse.action.EncoderAction$FinishVisitor
+prefuse.action.EncoderAction
+prefuse.action.EncoderAction$ActionVisitor
+prefuse.action.EncoderAction$SetupVisitor

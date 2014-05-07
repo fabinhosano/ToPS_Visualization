@@ -1,0 +1,4 @@
+prefuse.util.collections.CopyOnWriteArrayList$COWIterator
+prefuse.util.collections.CopyOnWriteArrayList$COWSubListIterator
+prefuse.util.collections.CopyOnWriteArrayList
+prefuse.util.collections.CopyOnWriteArrayList$COWSubList

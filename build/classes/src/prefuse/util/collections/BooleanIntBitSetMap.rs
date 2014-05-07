@@ -1,0 +1,2 @@
+prefuse.util.collections.BooleanIntBitSetMap$BitSetIterator
+prefuse.util.collections.BooleanIntBitSetMap
