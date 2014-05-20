@@ -4,7 +4,22 @@
  */
 package classes;
 
+import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 /**
@@ -13,67 +28,300 @@ import javax.swing.UIManager;
  */
 public final class Model extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Model
-     */
+    private final String VLMC = "VariableLengthMarkovChain";
+    private final String DiscreteIID = "DiscreteIIDModel";
+    private final String modelName = "model_name";
+    private final String alphabet = "alphabet";
+    private final String probabilities = "probabilities";
+    private String pathFile = "";
+    private Visualize_VLMC visualizar_vlmc;
+    private Visualize_Discreteiid visualizar_discreteiid;
+    private Train treinar;
+    private Simulate simular;
+    private BufferedReader bufferedReader;
+    private FileReader fileReader;
+    private JFileChooser fileChooser;
+
     public Model() {
         carregarMenuModelo();
+
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setTitle("ToPS Visualization - Modelo");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+    }
+
+    public Model(String pathFile) {
+        carregarMenuModelo();
+
+        this.pathFile = pathFile;
 
         setVisible(true);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setTitle("ToPS Visualization - Modelo");
         setExtendedState(MAXIMIZED_BOTH);
-        
     }
 
     public void carregarMenuModelo() {
         initComponents();
 
+        pathFile = "";
+
         getContentPane().repaint();
-        
+
         menu.remove(menuModelo);
-        
-        //radioButtonRadial.setVisible(false);
-        //radioButtonTree.setVisible(false);
 
         comboBoxModelo.removeAllItems();
         comboBoxModelo.addItem("Simular");
         comboBoxModelo.addItem("Treinar");
         comboBoxModelo.addItem("Visualizar");
-        
+
         UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
     }
 
     public void carregarModelo() {
         if (comboBoxModelo.getSelectedItem().equals("Simular")) {
-            Simulate simular = new Simulate();
-            simular.setSize(1360, 750);
-
-            add(simular);
-            setTitle("ToPS Visualization - Modelo (Simular)");
-            repaint();
-            pack();
+            simulateModel();
         } else {
             if (comboBoxModelo.getSelectedItem().equals("Treinar")) {
-                Train treinar = new Train();
-                treinar.setSize(1360, 750);
-
-                add(treinar);
-                setTitle("ToPS Visualization - Modelo (Treinar)");
-                repaint();
-                pack();
+                trainSequence();
             } else {
                 if (comboBoxModelo.getSelectedItem().equals("Visualizar")) {
-                    Visualize visualizar = new Visualize();
-                    visualizar.setSize(1360, 750);
-
-                    setContentPane(visualizar.getPanel());
-                    setTitle("ToPS Visualization - Modelo (Visualizar)");
-                    getContentPane().repaint();
-                    pack();
+                    visualizationModel();
                 }
             }
         }
+
+        getContentPane().repaint();
+        pack();
+    }
+
+    private void fillDataSimulate_DiscreteIID() {
+        if (visualizar_discreteiid.isSimular()) {
+            pathFile = visualizar_discreteiid.getPathModel();
+
+            setModelo("Simular");
+        }
+    }
+
+    private void fillDataSimulate_VLMC() {
+        if (visualizar_vlmc.isSimular()) {
+            pathFile = visualizar_vlmc.getPathModel();
+
+            setModelo("Simular");
+        }
+    }
+
+    private void fillDataTrain() {
+        if (simular.isTreinar()) {
+            pathFile = simular.getTextSaida();
+
+            setModelo("Treinar");
+        }
+    }
+
+    private void fillDataVisualization() {
+        if (treinar.isVisualizar()) {
+            pathFile = "/home/fabinhosano/examples/vlmc/vlmc.txt";
+
+            setModelo("Visualizar");
+        }
+    }
+
+    private boolean isAValidModel() {
+        boolean alpha = false, mName = false, prob = false;
+        try {
+            fileReader = new FileReader(fileChooser.getSelectedFile());
+            bufferedReader = new BufferedReader(fileReader);
+            String leitura = null;
+
+            while ((leitura = bufferedReader.readLine()) != null) {
+
+                Pattern pAlphabet = Pattern.compile(alphabet);
+                Matcher mAlphabet = pAlphabet.matcher(leitura);
+
+                Pattern pModelName = Pattern.compile(modelName);
+                Matcher mModelName = pModelName.matcher(leitura);
+
+                Pattern pProbabilities = Pattern.compile(probabilities);
+                Matcher mProbabilities = pProbabilities.matcher(leitura);
+
+                if (mModelName.find()) {
+                    mName = true;
+                } else {
+                    if (mAlphabet.find()) {
+                        alpha = true;
+                    } else {
+                        if (mProbabilities.find()) {
+                            prob = true;
+                        }
+                    }
+                }
+            }
+
+            fileReader.close();
+            bufferedReader.close();
+
+            if (alpha && prob && mName) {
+                return true;
+            }
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("Arquivo Inexistente");
+            Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            System.out.println("Não foi possível ler o arquivo!");
+            Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
+
+    private void modelInvalid() {
+        JOptionPane.showMessageDialog(fileChooser,
+                "O arquivo selecionado não corresponde a um modelo válido.",
+                "ToPS Visualization - Modelo", JOptionPane.INFORMATION_MESSAGE);
+
+        pathFile = "";
+
+        getContentPane().removeAll();
+
+        carregarMenuModelo();
+    }
+
+    private JButton openSimulate_DiscreteIID() {
+        JButton openSimulate = visualizar_discreteiid.getButtonVisualizar();
+
+        openSimulate.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                fillDataSimulate_DiscreteIID();
+            }
+        });
+
+        return openSimulate;
+    }
+
+    private JButton openSimulate_VLMC() {
+        JButton openSimulate = visualizar_vlmc.getButtonVisualizar();
+
+        openSimulate.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                fillDataSimulate_VLMC();
+            }
+        });
+
+        return openSimulate;
+    }
+
+    private JButton openTrain() {
+        JButton openTrain = simular.getButtonSimular();
+
+        openTrain.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                fillDataTrain();
+            }
+        });
+
+        return openTrain;
+    }
+
+    private JButton openVisualization() {
+        JButton openVisualization = treinar.getButtonTreinar();
+
+        openVisualization.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                fillDataVisualization();
+            }
+        });
+
+        return openVisualization;
+    }
+
+    private void simulateModel() {
+        if (pathFile.equals("")) {
+            simular = new Simulate();
+        } else {
+            System.out.println(pathFile);
+            simular = new Simulate(pathFile);
+            pathFile = "";
+        }
+
+        simular.setSize(1360, 750);
+
+        getContentPane().add(openTrain());
+        setContentPane(simular);
+        setTitle("ToPS Visualization - Modelo (Simular)");
+    }
+
+    private void trainSequence() {
+        if (pathFile.equals("")) {
+            treinar = new Train();
+        } else {
+            treinar = new Train(pathFile);
+            pathFile = "";
+        }
+
+        treinar.setSize(1360, 750);
+
+        getContentPane().add(openVisualization());
+        setContentPane(treinar);
+        setTitle("ToPS Visualization - Modelo (Treinar)");
+    }
+
+    private void visualizationModel() {
+        if (pathFile.equals("")) {
+            File file = new File("/home/fabinhosano/examples/vlmc/");
+            fileChooser = new JFileChooser(file);
+            if (fileChooser.showOpenDialog(null) == JFileChooser.CANCEL_OPTION) {
+                carregarMenuModelo();
+            }
+        } else {
+            File file = new File(pathFile);
+            fileChooser = new JFileChooser();
+            fileChooser.setSelectedFile(file);
+        }
+
+
+        if (isAValidModel()) {
+            pathFile = fileChooser.getSelectedFile().getAbsolutePath();
+
+            FileParser fileParser = new FileParser(pathFile);
+            fileParser.readProbabilisticModelFile();
+
+            pathFile = "";
+
+            if (fileParser.getModelName().equals(VLMC)) {
+                visualizar_vlmc = new Visualize_VLMC(fileParser);
+                visualizar_vlmc.setSize(1360, 750);
+
+                visualizar_vlmc.getBox().add(openSimulate_VLMC());
+
+                setContentPane(visualizar_vlmc.getPanel());
+                getContentPane().add(visualizar_vlmc.getBox(), BorderLayout.SOUTH);
+                setTitle("ToPS Visualization - Modelo (Visualizar - " + VLMC + " )");
+            } else {
+                if (fileParser.getModelName().equals(DiscreteIID)) {
+                    visualizar_discreteiid = new Visualize_Discreteiid(fileParser);
+                    visualizar_discreteiid.setSize(1360, 750);
+
+                    setContentPane(visualizar_discreteiid);
+                    getContentPane().add(openSimulate_DiscreteIID());
+                    setTitle("ToPS Visualization - Modelo (Visualizar - " + DiscreteIID + " )");
+                } else {
+                    modelInvalid();
+                }
+            }
+        }
+    }
+
+    public void setModelo(String modelo) {
+        comboBoxModelo.setSelectedItem(modelo);
+
+        buttonSelecionar.doClick();
     }
 
     /**
@@ -104,24 +352,24 @@ public final class Model extends javax.swing.JFrame {
 
         menuModelo.setText("Modelo");
         menuModelo.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
             public void menuSelected(javax.swing.event.MenuEvent evt) {
                 menuModeloMenuSelected(evt);
-            }
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
         });
         menu.add(menuModelo);
 
         menuFecharModelo.setText("Fechar");
         menuFecharModelo.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
             public void menuSelected(javax.swing.event.MenuEvent evt) {
                 menuFecharModeloMenuSelected(evt);
-            }
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
         });
         menu.add(menuFecharModelo);

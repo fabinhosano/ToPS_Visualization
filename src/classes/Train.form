@@ -19,26 +19,27 @@
           <Group type="102" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="scrollPaneTreinar" alignment="0" min="-2" pref="396" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="labelAlfabeto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="textArqSeq" alignment="1" min="-2" pref="275" max="-2" attributes="0"/>
+                          <Component id="textAlfabeto" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="comboBoxModelo" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
+                          <Component id="buttonArqSeq" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelModelo" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="buttonTreinar" alignment="0" min="-2" pref="396" max="-2" attributes="0"/>
                   <Component id="labelArqSeq" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="buttonTreinar" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="textArqConf" min="-2" pref="275" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="buttonArqConf" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="labelSeq" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="textAlfabeto" min="-2" pref="275" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="buttonSeq" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="labelSaida" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="textSaida" min="-2" pref="275" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="buttonSaida" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Component id="labelSaida" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="textSaida" min="-2" pref="275" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Component id="buttonSaida" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="labelTreinar" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -48,79 +49,55 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="labelTreinar" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="labelArqSeq" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="textArqConf" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="buttonArqConf" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="textArqSeq" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="buttonArqSeq" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="labelSeq" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelAlfabeto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelModelo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="textAlfabeto" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="buttonSeq" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="comboBoxModelo" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Component id="labelSaida" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="textSaida" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="buttonSaida" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Component id="buttonTreinar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="50" max="32767" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Component id="scrollPaneTreinar" pref="45" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="labelTreinar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="TREINAR"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="labelArqSeq">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Arquivo de Sequ&#xea;ncia"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="textArqConf">
-    </Component>
-    <Component class="javax.swing.JButton" name="buttonArqConf">
+    <Component class="javax.swing.JButton" name="buttonArqSeq">
       <Properties>
         <Property name="text" type="java.lang.String" value="Selecionar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonArqConfActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonArqSeqActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelSeq">
+    <Component class="javax.swing.JLabel" name="labelAlfabeto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Alfabeto (separado por v&#xed;rgula)"/>
+        <Property name="text" type="java.lang.String" value="Alfabeto"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="textAlfabeto">
-    </Component>
-    <Component class="javax.swing.JButton" name="buttonSeq">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Selecionar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSeqActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="labelSaida">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Sa&#xed;da"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="textSaida">
     </Component>
     <Component class="javax.swing.JButton" name="buttonSaida">
       <Properties>
@@ -130,9 +107,65 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSaidaActionPerformed"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JLabel" name="labelSaida">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sa&#xed;da"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelTreinar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="TREINAR"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="textAlfabeto">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textArqSeq">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textSaida">
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelArqSeq">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Arquivo de Sequ&#xea;ncia"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="comboBoxModelo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="Item 1"/>
+            <StringItem index="1" value="Item 2"/>
+            <StringItem index="2" value="Item 3"/>
+            <StringItem index="3" value="Item 4"/>
+          </StringArray>
+        </Property>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="scrollPaneTreinar">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="textAreaTreinar">
+          <Properties>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="rows" type="int" value="5"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
     <Component class="javax.swing.JButton" name="buttonTreinar">
       <Properties>
         <Property name="text" type="java.lang.String" value="TREINAR"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonTreinarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelModelo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modelo"/>
       </Properties>
     </Component>
   </SubComponents>

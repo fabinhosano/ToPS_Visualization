@@ -20,12 +20,17 @@ public class JImagePanel extends JPanel {
     private String pathImage = "";
     private BufferedImage bi;
     private Graphics2D graphics2D;
+    private BufferedImage bufferedImage;
 
     public JImagePanel() {
     }
 
     public JImagePanel(String pathImage) {
         this.pathImage = pathImage;
+    }
+    
+    public JImagePanel(BufferedImage bufferedImage){
+        this.bufferedImage = bufferedImage;
     }
 
     @Override
@@ -35,8 +40,12 @@ public class JImagePanel extends JPanel {
 
         try {
 
-            bi = ImageIO.read(new File(pathImage));
-
+            if(pathImage.equals("")){
+                bi = bufferedImage;
+            }else{
+                bi = ImageIO.read(new File(pathImage));
+            }
+            
             int left = (this.getWidth() - bi.getWidth()) / 2;
             int top = (this.getHeight() - bi.getHeight()) / 2;
             graphics2D.drawImage(bi, left, top, null);

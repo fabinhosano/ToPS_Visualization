@@ -17,11 +17,28 @@ import tops.parser.ProbabilisticModelParameters;
  */
 public class FileParser {
 
+    private String modelName = "";
     private boolean flag;
     private boolean ordenar = true;
     private ArrayList<GraphicalData> graphicalData = new ArrayList<>();
+    private JFileChooser fileChooser;
+    private HashMap<String, Integer> probabilitiesReader;
+    private ProbabilisticModelParameters params;
+    private ProbabilisticModelParameterValue probParamValue;
+    private ArrayList<String> alpha;
 
-    public FileParser() {
+    public FileParser(JFileChooser fileChooser) {
+        this.fileChooser = fileChooser;
+    }
+
+    public FileParser(String pathModel) {
+        File file = new File(pathModel);
+        fileChooser = new JFileChooser();
+        fileChooser.setSelectedFile(file);
+    }
+
+    public JFileChooser getFileChooser() {
+        return fileChooser;
     }
 
     public ArrayList<GraphicalData> getGraphicalData() {
@@ -32,27 +49,49 @@ public class FileParser {
         this.graphicalData = graphicalData;
     }
 
-    public void readProbabilistcModelFile() {
-        HashMap<String, Integer> probabilitiesReader = new HashMap<>();
+    public String getModelName() {
+        return modelName;
+    }
 
-        JFileChooser filechooser = new JFileChooser(
-                new File("/home/fabinhosano/Dropbox/Iniciação Científica/Modelos"));
-        filechooser.showOpenDialog(null);
+    public void readProbabilisticModelFile() {
+        probabilitiesReader = new HashMap<>();
 
         ConfigurationReader reader = new ConfigurationReader();
-        ProbabilisticModelParameters params = reader.load(filechooser.getSelectedFile().getAbsolutePath());
+        params = reader.load(fileChooser.getSelectedFile().getAbsolutePath());
 
         //leitura do nome do modelo probabilistico
-        ProbabilisticModelParameterValue v = params.getMandatoryParameterValue("model_name");
-        String modelName = v.getString();
-        System.out.println(modelName);
+        probParamValue = params.getMandatoryParameterValue("model_name");
+        modelName = probParamValue.getString();
 
         //leitura do alfabeto do modelo probabilitisco
-        v = params.getMandatoryParameterValue("alphabet");
-        ArrayList<String> alpha = v.getStringVector();
+        probParamValue = params.getMandatoryParameterValue("alphabet");
+        alpha = probParamValue.getStringVector();
 
-        v = params.getMandatoryParameterValue("probabilities");
-        HashMap<String, Double> prob_map = v.getDoubleMap();
+        if (modelName.equals("DiscreteIIDModel")) {
+            readProbabilisticModelParametersDiscreteIID();
+        } else {
+            if (modelName.equals("VariableLengthMarkovChain")) {
+                readProbabilisticModelParametersVLMC();
+            }
+        }
+    }
+
+    public void readProbabilisticModelParametersDiscreteIID() {
+        probParamValue = params.getMandatoryParameterValue("probabilities");
+        ArrayList<Double> prob_map = probParamValue.getDoubleVector();
+
+        GraphicalData gd = new GraphicalData(modelName);
+        for (int i = 0, j = 0; i < alpha.size() && j < prob_map.size(); i++, j++) {
+            gd.addValue(alpha.get(i));
+            gd.addProbabilitie(prob_map.get(i));
+        }
+        
+        graphicalData.add(gd);
+    }
+
+    public void readProbabilisticModelParametersVLMC() {
+        probParamValue = params.getMandatoryParameterValue("probabilities");
+        HashMap<String, Double> prob_map = probParamValue.getDoubleMap();
 
         //criação de lista de comparação de probabilities.
         ArrayList<String> prob = new ArrayList<>();
@@ -69,6 +108,7 @@ public class FileParser {
         for (int i = 0; i < prob.size(); i++) {
             for (String probabilitie : prob_map.keySet()) {
                 if (probabilitie.equals(prob.get(i))) {
+                    System.out.println("prob(i): " + prob.get(i));
                     flag = true;
                     String partA = "", partB = "";
                     String[] parts = probabilitie.split("\\|");
@@ -90,16 +130,15 @@ public class FileParser {
                             }
                         }
                     }
-                    
+
                     if (flag) {
                         probabilitiesReader.put(partB, 1);
-
                         GraphicalData gd = new GraphicalData(partB);
                         gd.addValue(partA);
                         gd.addProbabilitie(prob_map.get(probabilitie));
                         graphicalData.add(gd);
                     }
-                    
+
                     //removendo probabilitie encontrado para melhora do desempenho.
                     prob_map.remove(probabilitie);
                     break;
@@ -107,5 +146,4 @@ public class FileParser {
             }
         }
     }
-    
 }

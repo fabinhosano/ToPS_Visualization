@@ -139,7 +139,7 @@ public class Tree extends Display {
             graph = new Graph(data, false);
 
 
-            fileParser = new FileParser();
+            fileParser = new FileParser("/home/fabinhosano/");
             fileParser.readProbabilistcModelFile();
 
             //Map para verificar nós inseridos.
